@@ -113,9 +113,14 @@ export default {
       return page.extract.replace(/<p>/g, '').replace(/<\/p>/g, '')
     },
     wikipediaLink: function () {
+      var language = window.navigator.userLanguage || window.navigator.language
+      if (language.includes('-')) language = language.substring(0, language.indexOf('-'))
+      const listLanguages = ['en', 'pl']
+      if (!listLanguages.includes(language)) language = 'en'
+
       let page = this.wikipediaData.query.pages[Object.keys(this.wikipediaData.query.pages)[0]]
       if (!page || !page.extract) return ''
-      return 'https://en.wikipedia.org/wiki/' + page.title
+      return `https://${language}.wikipedia.org/wiki/${page.title}`
     },
     type: function () {
       if (!this.selectedObject) return 'Unknown'

@@ -29,6 +29,8 @@ import App from './App'
 import Signin from './components/signin.vue'
 import MyProfile from './components/my-profile.vue'
 
+import { i18n } from './plugins/i18n.js'
+
 Vue.use(VueCookie)
 
 // Used to work-around a gmaps component refresh bug
@@ -118,6 +120,7 @@ Vue.prototype.$stellariumWebPlugins = function () {
 new Vue({
   el: '#app',
   router,
+  i18n,
   store,
   template: '<router-view></router-view>'
 })

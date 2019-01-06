@@ -11,6 +11,7 @@ import _ from 'lodash'
 import StelWebEngine from '@/assets/js/stellarium-web-engine.js'
 import NoctuaSkyClient from '@/assets/noctuasky-client'
 import Moment from 'moment'
+import { i18n } from '../plugins/i18n.js'
 
 var DDDate = Date
 DDDate.prototype.getJD = function () {
@@ -656,18 +657,19 @@ const swh = {
     let title
     if (ss.model === 'jpl_sso') {
       title = ss.short_name.toLowerCase()
-      if (['mercury', 'venus', 'earth', 'mars', 'jupiter', 'saturn', 'neptune', 'pluto'].indexOf(title) > -1) {
-        title = title + '_(planet)'
+      if (['mercury', 'venus', 'earth', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune', 'pluto'].indexOf(title) > -1) {
+        title = title.replace(title, i18n.t(`planets.${title}`))
+        title = title + '_(' + i18n.t('planets.planet') + ')'
       }
       if (ss.types[0] === 'Moo') {
-        title = title + '_(moon)'
+        title = title + '_(' + i18n.t('planets.moon') + ')'
       }
     }
     if (ss.model === 'mpc_asteroid') {
       title = ss.short_name
     }
     if (ss.model === 'constellation') {
-      title = ss.short_name + '_(constellation)'
+      title = ss.short_name + '_(' + i18n.t('general.constellation') + ')'
     }
     if (ss.model === 'dso') {
       for (let i in ss.names) {
@@ -687,14 +689,26 @@ const swh = {
     }
     if (ss.model === 'star') {
       for (let i in ss.names) {
-        if (ss.names[i].startsWith('* ')) {
+        if (ss.names[i].startsWith('NAME')) {
           title = this.cleanupOneSkySourceName(ss.names[i])
+        }
+      }
+      if (title === undefined) {
+        for (let i in ss.names) {
+          if (ss.names[i].startsWith('* ')) {
+            title = this.cleanupOneSkySourceName(ss.names[i])
+          }
         }
       }
     }
     if (!title) return Promise.reject(new Error("Can't find wikipedia compatible name"))
 
-    return fetch('https://en.wikipedia.org/w/api.php?action=query&redirects&prop=extracts&exintro&exlimit=1&exchars=300&format=json&origin=*&titles=' + title,
+    var language = window.navigator.userLanguage || window.navigator.language
+    if (language.includes('-')) language = language.substring(0, language.indexOf('-'))
+    const listLanguages = ['en', 'pl']
+    if (!listLanguages.includes(language)) language = 'en'
+
+    return fetch('https://' + language + '.wikipedia.org/w/api.php?action=query&redirects&prop=extracts&exintro&exlimit=1&exchars=300&format=json&origin=*&titles=' + title,
       {headers: { 'Content-Type': 'application/json; charset=UTF-8' }})
       .then(response => {
         return response.json()
