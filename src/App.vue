@@ -10,8 +10,8 @@
 
 <v-app dark>
   <v-snackbar bottom left multi-line :timeout="0" v-model="snackbar" color="secondary" >
-    <p>This site uses cookies. By continuing to browse the site you are agreeing to our use of cookies. Check our <a v-on:click.stop="$store.state.showPrivacyDialog = true">Privacy Policy</a>.</p>
-    <v-btn class="blue--text darken-1" flat @click.native="acceptCookies">I Agree</v-btn>
+    <p>{{ $t('ui.app.cookies') }}<a v-on:click.stop="$store.state.showPrivacyDialog = true">{{ $t('ui.app.privacy_policy') }}</a>.</p>
+    <v-btn class="blue--text darken-1" flat @click.native="acceptCookies">{{ $t('ui.app.agree') }}</v-btn>
   </v-snackbar>
   <v-navigation-drawer absolute temporary clipped v-model="nav" dark>
     <v-list dense>
@@ -60,22 +60,23 @@ import GuiLoader from '@/components/gui-loader.vue'
 import swh from '@/assets/sw_helpers.js'
 import Moment from 'moment'
 import NoctuaSkyClient from '@/assets/noctuasky-client'
+import { i18n } from './plugins/i18n.js'
 
 export default {
   data (context) {
     return {
       snackbar: this.$cookie.get('cookieAccepted') !== 'y',
       menuItems: [
-        {header: 'Ephemeris'},
-        {title: 'Planets Tonight', icon: 'panorama_fish_eye', store_var_name: 'showPlanetsVisibilityDialog'},
+        {header: i18n.t('ui.app.ephemeris')},
+        {title: i18n.t('ui.app.planets_tonight'), icon: 'panorama_fish_eye', store_var_name: 'showPlanetsVisibilityDialog'},
         {divider: true},
-        {header: 'Settings'},
-        {title: 'View Settings', icon: 'settings', store_var_name: 'showViewSettingsDialog'}
+        {header: i18n.t('ui.app.settings')},
+        {title: i18n.t('ui.app.view_settings'), icon: 'settings', store_var_name: 'showViewSettingsDialog'}
       ].concat(this.getPluginsMenuItems()).concat([
         {divider: true},
-        {title: 'About', icon: 'info', store_var_name: 'showAboutDialog'},
-        {title: 'Data Credits', icon: 'copyright', store_var_name: 'showDataCreditsDialog'},
-        {title: 'Privacy', icon: 'lock', store_var_name: 'showPrivacyDialog'}
+        {title: i18n.t('ui.app.about'), icon: 'info', store_var_name: 'showAboutDialog'},
+        {title: i18n.t('ui.app.data_credits'), icon: 'copyright', store_var_name: 'showDataCreditsDialog'},
+        {title: i18n.t('ui.app.privacy'), icon: 'lock', store_var_name: 'showPrivacyDialog'}
       ]),
       guiComponent: 'GuiLoader',
       startTimeIsSet: false

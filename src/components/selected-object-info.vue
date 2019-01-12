@@ -20,7 +20,7 @@
     </v-card-title>
     <v-card-text style="padding-bottom: 5px;">
       <v-layout v-if="otherNames.length > 1" row wrap style="width: 100%;">
-        <v-flex xs4 style="margin-top: -2px; color: #dddddd">Also known as</v-flex> <span class="caption" text-color="white" v-for="(mname, index) in otherNames" v-if="index > 0 && index < 8" :key="mname" style="margin-right: 15px; font-weight: 500">{{ mname }}</span>
+        <v-flex xs4 style="margin-top: -2px; color: #dddddd">{{ $t('ui.selected_object_info.known_as') }}</v-flex> <span class="caption" text-color="white" v-for="(mname, index) in otherNames" v-if="index > 0 && index < 8" :key="mname" style="margin-right: 15px; font-weight: 500">{{ mname }}</span>
         <v-btn small icon class="grey--text" v-if="otherNames.length > 8" v-on:click.native="showMinorNames = !showMinorNames" style="margin-top: -5px; margin-bottom: -5px;"><v-icon>more_horiz</v-icon></v-btn>
         <span class="caption" text-color="white" v-for="(mname, index) in otherNames" :key="mname"  v-if="showMinorNames && index >= 8" style="margin-right: 15px; font-weight: 500">{{ mname }}</span>
       </v-layout>
@@ -36,7 +36,7 @@
     <v-card-text>
       <v-layout row wrap style="width: 100%">
         <div v-html="wikipediaSummary"></div>
-        <div v-if="wikipediaSummary" class="grey--text caption" style="margin-left:auto; margin-right:0;"><i> read more on <b><a style="color: #62d1df;" target="_blank" :href="wikipediaLink">wikipedia</a></b></i></div>
+        <div v-if="wikipediaSummary" class="grey--text caption" style="margin-left:auto; margin-right:0;"><i>{{ $t('ui.selected_object_info.read_more_on') }}<b><a style="color: #62d1df;" target="_blank" :href="wikipediaLink">wikipedia</a></b></i></div>
       </v-layout>
     </v-card-text>
     <div style="position: absolute; right: 20px; bottom: -50px;">
@@ -81,6 +81,12 @@
 
 import Moment from 'moment'
 import swh from '@/assets/sw_helpers.js'
+import { i18n } from '../plugins/i18n.js'
+
+var language = window.navigator.userLanguage || window.navigator.language
+if (language.includes('-')) language = language.substring(0, language.indexOf('-'))
+const listLanguages = ['en', 'pl']
+if (!listLanguages.includes(language)) language = 'en'
 
 export default {
   data: function () {
@@ -113,17 +119,12 @@ export default {
       return page.extract.replace(/<p>/g, '').replace(/<\/p>/g, '')
     },
     wikipediaLink: function () {
-      var language = window.navigator.userLanguage || window.navigator.language
-      if (language.includes('-')) language = language.substring(0, language.indexOf('-'))
-      const listLanguages = ['en', 'pl']
-      if (!listLanguages.includes(language)) language = 'en'
-
       let page = this.wikipediaData.query.pages[Object.keys(this.wikipediaData.query.pages)[0]]
       if (!page || !page.extract) return ''
       return `https://${language}.wikipedia.org/wiki/${page.title}`
     },
     type: function () {
-      if (!this.selectedObject) return 'Unknown'
+      if (!this.selectedObject) return i18n.t('ui.selected_object_info.unknown')
       let morpho = ''
       if (this.selectedObject.model_data && this.selectedObject.model_data.morpho) {
         morpho = swh.nameForGalaxyMorpho(this.selectedObject.model_data.morpho)
@@ -131,7 +132,15 @@ export default {
           morpho = morpho + ' '
         }
       }
-      return morpho + swh.nameForSkySourceType(this.selectedObject.types[0])
+      if (language === 'en') {
+        return `${morpho} ${swh.nameForSkySourceType(this.selectedObject.types[0])}`
+      } else if (language === 'pl') {
+        if (morpho) {
+          return `${morpho} (${swh.nameForSkySourceType(this.selectedObject.types[0])})`
+        } else {
+          return `${morpho} ${swh.nameForSkySourceType(this.selectedObject.types[0])}`
+        }
+      }
     },
     icon: function () {
       return swh.iconForSkySource(this.selectedObject)
@@ -154,25 +163,25 @@ export default {
         }
       }
 
-      addAttr('Magnitude', 'vmag', this.formatMagnitude)
-      addAttr('Distance', 'distance', this.formatDistance)
+      addAttr(i18n.t('ui.selected_object_info.magnitude'), 'vmag', this.formatMagnitude)
+      addAttr(i18n.t('ui.selected_object_info.distance'), 'distance', this.formatDistance)
       if (this.selectedObject.model_data) {
         if (this.selectedObject.model_data.radius) {
           ret.push({
-            key: 'Radius',
+            key: i18n.t('ui.selected_object_info.radius'),
             value: this.selectedObject.model_data.radius.toString() + ' Km'
           })
         }
         if (this.selectedObject.model_data.spect_t) {
           ret.push({
-            key: 'Spectral Type',
+            key: i18n.t('ui.selected_object_info.spectral_type'),
             value: this.selectedObject.model_data.spect_t
           })
         }
         if (this.selectedObject.model_data.dimx) {
           let dimy = this.selectedObject.model_data.dimy ? this.selectedObject.model_data.dimy : this.selectedObject.model_data.dimx
           ret.push({
-            key: 'Size',
+            key: i18n.t('ui.selected_object_info.size'),
             value: this.selectedObject.model_data.dimx.toString() + "' x " + dimy.toString() + "'"
           })
         }
@@ -199,16 +208,16 @@ export default {
       let raCIRS = this.$stel.anp(radecCIRS[0])
       let decCIRS = this.$stel.anpm(radecCIRS[1])
       ret.push({
-        key: 'Ra/Dec',
+        key: i18n.t('ui.selected_object_info.ra_dec'),
         value: formatRA(raCIRS) + '&nbsp;&nbsp;&nbsp;' + formatDec(decCIRS)
       })
       ret.push({
-        key: 'Az/Alt',
+        key: i18n.t('ui.selected_object_info.az_alt'),
         value: formatAz(obj.az) + '&nbsp;&nbsp;&nbsp;' + formatDec(obj.alt)
       })
-      addAttr('Phase', 'phase', this.formatPhase)
-      addAttr('Rise', 'rise', this.formatTime)
-      addAttr('Set', 'set', this.formatTime)
+      addAttr(i18n.t('ui.selected_object_info.phase'), 'phase', this.formatPhase)
+      addAttr(i18n.t('ui.selected_object_info.rise'), 'rise', this.formatTime)
+      addAttr(i18n.t('ui.selected_object_info.set'), 'set', this.formatTime)
       return ret
     },
     showPointToButton: function () {
@@ -265,7 +274,7 @@ export default {
     },
     formatMagnitude: function (v) {
       if (!v) {
-        return 'Unknown'
+        return i18n.t('ui.selected_object_info.unknown')
       }
       return v
     },
@@ -276,10 +285,10 @@ export default {
       }
       let ly = d * swh.astroConstants.ERFA_AULT / swh.astroConstants.ERFA_DAYSEC / swh.astroConstants.ERFA_DJY
       if (ly >= 0.1) {
-        return ly.toFixed(2) + '<span class="radecUnit"> light years</span>'
+        return ly.toFixed(2) + '<span class="radecUnit"> ' + i18n.t('ui.selected_object_info.light_years') + '</span>'
       }
       if (d >= 0.1) {
-        return d.toFixed(2) + '<span class="radecUnit"> AU</span>'
+        return d.toFixed(2) + '<span class="radecUnit"> ' + i18n.t('ui.selected_object_info.au') + '</span>'
       }
       let meter = d * swh.astroConstants.ERFA_DAU
       if (meter >= 1000) {

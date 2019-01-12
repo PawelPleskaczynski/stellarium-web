@@ -24,17 +24,17 @@
         <v-card>
           <v-card-title primary-title>
             <div>
-              <h3 class="headline mb-0">Sign in to NoctuaSky</h3>
+              <h3 class="headline mb-0">{{ $t('ui.signin.signin_to') }}</h3>
             </div>
           </v-card-title>
           <v-progress-circular v-if="signInInProgress" indeterminate v-bind:size="50" style="position: absolute; left: 0; right: 0; margin-left: auto; margin-right: auto; margin-top: 60px;"></v-progress-circular>
           <v-card-text>
             <form action="">
-              <v-text-field :disabled="signInInProgress" name="input-login" label="Email" autocomplete="username" v-model="email" @input="clearSignInErrorAlert"></v-text-field>
-              <v-text-field :disabled="signInInProgress" name="input-pwd" label="Password" autocomplete="password" v-model="password" type="password" @keyup.native.enter="signIn()" @input="clearSignInErrorAlert"></v-text-field>
+              <v-text-field :disabled="signInInProgress" name="input-login" :label="$t('ui.my_profile.email')" autocomplete="username" v-model="email" @input="clearSignInErrorAlert"></v-text-field>
+              <v-text-field :disabled="signInInProgress" name="input-pwd" :label="$t('ui.my_profile.password')" autocomplete="password" v-model="password" type="password" @keyup.native.enter="signIn()" @input="clearSignInErrorAlert"></v-text-field>
               <v-alert error v-model="showSignInErrorAlert">{{ signInErrorAlert }}</v-alert>
               <v-layout row justify-space-around>
-                <v-btn @click.stop.native="signIn()" :disabled="signInButtonDisabled || signInInProgress">Sign In</v-btn>
+                <v-btn @click.stop.native="signIn()" :disabled="signInButtonDisabled || signInInProgress">{{ $t('ui.observing_panel_root_toolbar.sign_in') }}</v-btn>
               </v-layout>
             </form>
           </v-card-text>
@@ -42,7 +42,7 @@
           </v-card-actions>
         </v-card>
         <v-layout row justify-space-around style="margin-top: 30px">
-          <p>New to NoctuaSky? <v-btn flat small @click.stop.native="showSignupTab()">Create an account</v-btn></p>
+          <p>{{ $t('ui.signin.new') }} <v-btn flat small @click.stop.native="showSignupTab()">{{ $t('ui.signin.create_account') }}</v-btn></p>
         </v-layout>
       </v-container>
     </v-tab-item>
@@ -52,24 +52,24 @@
         <v-card>
           <v-card-title primary-title>
             <div>
-              <h3 class="headline mb-0">Create a NoctuaSky account</h3>
+              <h3 class="headline mb-0">{{ $t('ui.signin.create_account2') }}</h3>
             </div>
           </v-card-title>
           <v-progress-circular v-if="signUpInProgress" indeterminate v-bind:size="50" style="position: absolute; left: 0; right: 0; margin-left: auto; margin-right: auto; margin-top: 60px;"></v-progress-circular>
           <v-card-text>
             <v-layout row justify-space-between>
-              <v-text-field name="input-first-name" label="First Name" v-model="signUpFirstName"></v-text-field>
+              <v-text-field name="input-first-name" :label="$t('ui.my_profile.first_name')" v-model="signUpFirstName"></v-text-field>
               &nbsp;
-              <v-text-field name="input-last-name" label="Last Name" v-model="signUpLastName"></v-text-field>
+              <v-text-field name="input-last-name" :label="$t('ui.my_profile.last_name')" v-model="signUpLastName"></v-text-field>
             </v-layout>
             <form action="">
-            <v-text-field required name="input-email" label="Email" autocomplete="username" v-model="signUpEmail" :rules="[rules.email]"></v-text-field>
-            <v-text-field required name="input-pwd" label="Create password" autocomplete="new-password" v-model="signUpPassword" type="password" counter :rules="[rules.password]"></v-text-field>
-            <v-text-field required name="input-pwd2" label="Confirm password" autocomplete="new-password" v-model="signUpPassword2" type="password" :rules="[rules.confirmPassword]"></v-text-field>
+            <v-text-field required name="input-email" :label="$t('ui.my_profile.email')" autocomplete="username" v-model="signUpEmail" :rules="[rules.email]"></v-text-field>
+            <v-text-field required name="input-pwd" :label="$t('ui.signin.create_password')" autocomplete="new-password" v-model="signUpPassword" type="password" counter :rules="[rules.password]"></v-text-field>
+            <v-text-field required name="input-pwd2" :label="$t('ui.signin.confirm_password')" autocomplete="new-password" v-model="signUpPassword2" type="password" :rules="[rules.confirmPassword]"></v-text-field>
             </form>
             <v-alert error v-model="showSignUpErrorAlert">{{ signUpErrorAlert }}</v-alert>
             <v-layout row justify-space-around>
-              <v-btn @click.stop.native="signUp()" :disabled="formValid">Sign Up</v-btn>
+              <v-btn @click.stop.native="signUp()" :disabled="formValid">{{ $t('ui.signin.sign_up') }}</v-btn>
             </v-layout>
           </v-card-text>
         </v-card>
@@ -81,16 +81,16 @@
         <v-card>
           <v-card-title primary-title>
             <div>
-              <h3 class="headline mb-0">Thanks for Signin In to NoctuaSky.com!</h3>
+              <h3 class="headline mb-0">{{ $t('ui.signin.thanks') }}</h3>
             </div>
           </v-card-title>
           <v-card-text>
-            <p>Before you can continue, you need to confirm that your email is valid.</p>
-            <p>We have just sent you a message containing a confirmation link that you need to click.</p>
+            <p>{{ $t('ui.signin.msg1') }}</p>
+            <p>{{ $t('ui.signin.msg2') }}</p>
           </v-card-text>
         </v-card>
         <v-layout row justify-space-around style="margin-top: 30px">
-          <p><v-btn flat small @click.stop.native="showSigninTab()">OK, get me to SignIn</v-btn></p>
+          <p><v-btn flat small @click.stop.native="showSigninTab()">{{ $t('ui.signin.ok') }}</v-btn></p>
         </v-layout>
       </v-container>
     </v-tab-item>

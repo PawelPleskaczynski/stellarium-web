@@ -17,13 +17,13 @@
       <v-icon>account_circle</v-icon>
     </v-btn>
     <v-list subheader>
-      <v-subheader v-if='userLoggedIn'>Logged as {{ userEmail }}</v-subheader>
+      <v-subheader v-if='userLoggedIn'>{{ $t(ui.observing_panel_root_toolbar.logged_as) }} {{ userEmail }}</v-subheader>
       <v-list-tile v-if='userLoggedIn' avatar to="/observing/profile">
         <v-list-tile-avatar>
           <v-icon>account_circle</v-icon>
         </v-list-tile-avatar>
         <v-list-tile-content>
-          <v-list-tile-title>My Profile</v-list-tile-title>
+          <v-list-tile-title>{{ $t(ui.observing_panel_root_toolbar.my_profile) }}</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
       <v-list-tile v-if='userLoggedIn' avatar @click="logout()">
@@ -31,7 +31,7 @@
           <v-icon>exit_to_app</v-icon>
         </v-list-tile-avatar>
         <v-list-tile-content>
-          <v-list-tile-title>Logout</v-list-tile-title>
+          <v-list-tile-title>{{ $t(ui.observing_panel_root_toolbar.logout) }}</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
       <v-list-tile v-if='!userLoggedIn' avatar to="/observing/signin">
@@ -39,7 +39,7 @@
           <v-icon>account_box</v-icon>
         </v-list-tile-avatar>
         <v-list-tile-content>
-          <v-list-tile-title>Sign In</v-list-tile-title>
+          <v-list-tile-title>{{ $t(ui.observing_panel_root_toolbar.sign_in) }}</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
     </v-list>

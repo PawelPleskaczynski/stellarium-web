@@ -9,12 +9,12 @@
 <template>
 <v-dialog lazy max-width="600" v-model="$store.state.showAboutDialog">
   <v-card v-if="$store.state.showAboutDialog" class="secondary white--text">
-    <v-card-title><div class="headline">About</div></v-card-title>
+    <v-card-title><div class="headline">{{ $t('ui.about_dialog.title') }}</div></v-card-title>
     <v-card-text>
-      <p>Welcome to Stellarium Web, a free open source planetarium running in your web browser.
-      This page is sill in beta, please report any bugs or ask questions to <a href="mailto:contact@noctua-software.com">contact@noctua-software.com</a> or on our <a href="https://github.com/Stellarium/stellarium-web" target="_blank">Github page</a>.</p>
+      <p>{{ $t('ui.about_dialog.line1') }}
+      {{ $t('ui.about_dialog.line2p1') }}<a href="mailto:contact@noctua-software.com">contact@noctua-software.com</a>{{ $t('ui.about_dialog.line2p2') }}<a href="https://github.com/Stellarium/stellarium-web" target="_blank">{{ $t('ui.about_dialog.line2p3') }}</a>.</p>
 
-      <p>By using this website, you agree with our <a v-on:click.stop="$store.state.showPrivacyDialog = true">Privacy Policy</a></p>
+      <p>{{ $t('ui.about_dialog.line3p1') }}<a v-on:click.stop="$store.state.showPrivacyDialog = true">{{ $t('ui.about_dialog.line3p2') }}</a></p>
     </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer><v-btn class="blue--text darken-1" flat @click.native="$store.state.showAboutDialog = false">Close</v-btn>
