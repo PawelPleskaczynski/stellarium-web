@@ -1,3 +1,26 @@
+/* =================
+ * Translation guide
+ * =================
+ * 1. Add your desired language (without hyphen) to an array in sw_helpers.js
+ *    file (717th line as of 12th of Jan, 2019), selected-object-info.vue
+ *    file (88th line) and this file (29th line). The list should then look
+ *    like this: `const listLanguages = ['en', 'pl', 'ru']`
+ *
+ * 2. Copy and paste original `en` object in `const messages` object, and
+ *    change its name to the language's short name (the same as in 1st point)
+ *
+ * 3. Translate key/value pairs in the new object. Don't change key, only change
+ *    values. If you can't translate something, leave original value.
+ *
+ * 4. Update lines in 1st point if these were changed (that'll help other
+ *    translators)
+ *
+ * 5. Don't forget to add your name to `doc/cla` directory and create a PR
+ *
+ * Translators:
+ * - Paweł Pleskaczyński: added translation support and added Polish translation
+*/
+
 import Vue from 'vue'
 import VueI18n from 'vue-i18n'
 
