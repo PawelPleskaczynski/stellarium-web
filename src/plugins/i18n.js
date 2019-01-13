@@ -3,7 +3,7 @@
  * =================
  * 1. Add your desired language (without hyphen) to an array in sw_helpers.js
  *    file (717th line as of 12th of Jan, 2019), selected-object-info.vue
- *    file (88th line) and this file (29th line). The list should then look
+ *    file (90th line) and this file (29th line). The list should then look
  *    like this: `const listLanguages = ['en', 'pl', 'ru']`
  *
  * 2. Copy and paste original `en` object in `const messages` object, and
@@ -866,8 +866,8 @@ const messages = {
       selected_object_info: {
         known_as: 'Również znany jako',
         read_more_on: ' przeczytaj więcej: ',
-        magnitude: 'Wielkość gwiazdowa',
-        distance: 'Dystans',
+        magnitude: 'Magnitudo',
+        distance: 'Odległość',
         radius: 'Promień',
         spectral_type: 'Typ spektralny',
         size: 'Rozmiar',

@@ -8,37 +8,39 @@
 
 <template>
   <v-card v-if="selectedObject" transparent style="background: rgba(66, 66, 66, 0.3);">
-    <v-btn icon style="position: absolute; right: 0" v-on:click.native="unselect()"><v-icon>close</v-icon></v-btn>
-    <v-card-title primary-title>
-      <div style="width: 100%">
-        <img :src="icon" height="48" width="48" align="left" style="margin-top: 3px; margin-right: 10px"/>
-        <div style="overflow: hidden; text-overflow: ellipsis;">
-          <div class="headline">{{ title }}</div>
-          <span class="grey--text">{{ type }}</span>
+    <div style="min-height: 100%; max-height: calc(100vh - 140px); overflow: auto;">
+      <v-btn icon style="position: absolute; right: 0" v-on:click.native="unselect()"><v-icon>close</v-icon></v-btn>
+      <v-card-title primary-title>
+        <div style="width: 100%">
+          <img :src="icon" height="48" width="48" align="left" style="margin-top: 3px; margin-right: 10px"/>
+          <div style="overflow: hidden; text-overflow: ellipsis;">
+            <div class="headline">{{ title }}</div>
+            <span class="grey--text">{{ type }}</span>
+          </div>
         </div>
-      </div>
-    </v-card-title>
-    <v-card-text style="padding-bottom: 5px;">
-      <v-layout v-if="otherNames.length > 1" row wrap style="width: 100%;">
-        <v-flex xs4 style="margin-top: -2px; color: #dddddd">{{ $t('ui.selected_object_info.known_as') }}</v-flex> <span class="caption" text-color="white" v-for="(mname, index) in otherNames" v-if="index > 0 && index < 8" :key="mname" style="margin-right: 15px; font-weight: 500">{{ mname }}</span>
-        <v-btn small icon class="grey--text" v-if="otherNames.length > 8" v-on:click.native="showMinorNames = !showMinorNames" style="margin-top: -5px; margin-bottom: -5px;"><v-icon>more_horiz</v-icon></v-btn>
-        <span class="caption" text-color="white" v-for="(mname, index) in otherNames" :key="mname"  v-if="showMinorNames && index >= 8" style="margin-right: 15px; font-weight: 500">{{ mname }}</span>
-      </v-layout>
-    </v-card-text>
-    <v-card-text>
-      <v-layout row wrap style="width: 100%">
-        <template v-for="item in items">
-          <v-flex xs4 style="color: #dddddd">{{ item.key }}</v-flex>
-          <v-flex xs8 style="font-weight: 500"><span v-html="item.value"></span></v-flex>
-        </template>
-      </v-layout>
-    </v-card-text>
-    <v-card-text>
-      <v-layout row wrap style="width: 100%">
-        <div v-html="wikipediaSummary"></div>
-        <div v-if="wikipediaSummary" class="grey--text caption" style="margin-left:auto; margin-right:0;"><i>{{ $t('ui.selected_object_info.read_more_on') }}<b><a style="color: #62d1df;" target="_blank" :href="wikipediaLink">wikipedia</a></b></i></div>
-      </v-layout>
-    </v-card-text>
+      </v-card-title>
+      <v-card-text style="padding-bottom: 5px;">
+        <v-layout v-if="otherNames.length > 1" row wrap style="width: 100%;">
+          <v-flex xs4 style="margin-top: -2px; color: #dddddd">{{ $t('ui.selected_object_info.known_as') }}</v-flex> <span class="caption" text-color="white" v-for="(mname, index) in otherNames" v-if="index > 0 && index < 8" :key="mname" style="margin-right: 15px; font-weight: 500">{{ mname }}</span>
+          <v-btn small icon class="grey--text" v-if="otherNames.length > 8" v-on:click.native="showMinorNames = !showMinorNames" style="margin-top: -5px; margin-bottom: -5px;"><v-icon>more_horiz</v-icon></v-btn>
+          <span class="caption" text-color="white" v-for="(mname, index) in otherNames" :key="mname"  v-if="showMinorNames && index >= 8" style="margin-right: 15px; font-weight: 500">{{ mname }}</span>
+        </v-layout>
+      </v-card-text>
+      <v-card-text>
+        <v-layout row wrap style="width: 100%">
+          <template v-for="item in items">
+            <v-flex xs4 style="color: #dddddd">{{ item.key }}</v-flex>
+            <v-flex xs8 style="font-weight: 500"><span v-html="item.value"></span></v-flex>
+          </template>
+        </v-layout>
+      </v-card-text>
+      <v-card-text>
+        <v-layout row wrap style="width: 100%">
+          <div v-html="wikipediaSummary"></div>
+          <div v-if="wikipediaSummary" class="grey--text caption" style="margin-left:auto; margin-right:0;"><i>{{ $t('ui.selected_object_info.read_more_on') }}<b><a style="color: #62d1df;" target="_blank" :href="wikipediaLink">wikipedia</a></b></i></div>
+        </v-layout>
+      </v-card-text>
+    </div>
     <div style="position: absolute; right: 20px; bottom: -50px;">
       <v-btn v-for="btn in extraButtons" :key="btn.id" dark color="transparent" @click.native="extraButtonClicked(btn)">
         {{ btn.name }}<v-icon right dark>{{ btn.icon }}</v-icon>
