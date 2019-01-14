@@ -4,16 +4,18 @@
  * 1. Add your desired language (without hyphen) to an array in
  *    /src/plugins/langs.js. The list should then look like this:
  *    `const listLanguages = ['en', 'pl', 'ru']`
+ *    - note: don't add eg. 'zh_CN', but only 'zh'
  *
  * 2. Add your language to 'items' array in /src/components/lang-settings-
  *    dialog.vue
  *
  * 3. Let's assume you want to translate from English to Russian, and you have
  *    done 1st and 2nd step. You need to copy and paste existing 'en'
- *    object in this file (in const translations) and change its name to 'ru'.
+ *    object in this file (in 'const translations') and change name of new
+ *    object to 'ru'.
  *
  * 4. Translate key/value pairs in the new object. Don't change key, only change
- *    values. If you can't translate something, leave original value.
+ *    values. If you can't translate something, leave the original value.
  *
  * 5. Don't forget to add your name to `doc/cla` directory and create a PR
  *

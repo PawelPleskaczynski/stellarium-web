@@ -18,8 +18,8 @@
         v-model="select"
         :label="$t('ui.lang_settings_dialog.select_lang')"
         single-line
-        item-text="report"
-        item-value="src"
+        item-text="long_name"
+        item-value="short_name"
         return-object
         persistent-hint
         v-on:change="changeLang"
@@ -40,9 +40,10 @@ import langs from '../plugins/langs.js'
 export default {
   data () {
     return {
+      // add your language here as a new object
       items: [
-        { report: 'English', src: 'en' },
-        { report: 'Polski', src: 'pl' }
+        { long_name: 'English', short_name: 'en' },
+        { long_name: 'Polski', short_name: 'pl' }
       ]
     }
   },
