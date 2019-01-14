@@ -15,7 +15,6 @@
       <p>Change application's language to:</p>
       <v-select
         :items="items"
-        v-model="select"
         :label="$t('ui.lang_settings_dialog.select_lang')"
         single-line
         item-text="long_name"
@@ -49,14 +48,11 @@ export default {
   },
   methods: {
     changeLang (a) {
-      console.log(a.src)
-      Vue.config.lang = a.src
+      console.log(a.short_name)
+      Vue.config.lang = a.short_name
       this.$i18n.locale = Vue.config.lang
-      langs.updateLanguage(a.src)
+      langs.updateLanguage(a.short_name)
     }
   }
 }
 </script>
-
-<style>
-</style>
