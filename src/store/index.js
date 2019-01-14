@@ -37,6 +37,7 @@ const createStore = () => {
       showAboutDialog: false,
       showDataCreditsDialog: false,
       showPrivacyDialog: false,
+      showLangSettingsDialog: false,
       showViewSettingsDialog: false,
       showPlanetsVisibilityDialog: false,
       showLocationDialog: false,

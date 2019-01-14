@@ -66,18 +66,6 @@ export default {
   data (context) {
     return {
       snackbar: this.$cookie.get('cookieAccepted') !== 'y',
-      menuItems: [
-        {header: i18n.t('ui.app.ephemeris')},
-        {title: i18n.t('ui.app.planets_tonight'), icon: 'panorama_fish_eye', store_var_name: 'showPlanetsVisibilityDialog'},
-        {divider: true},
-        {header: i18n.t('ui.app.settings')},
-        {title: i18n.t('ui.app.view_settings'), icon: 'settings', store_var_name: 'showViewSettingsDialog'}
-      ].concat(this.getPluginsMenuItems()).concat([
-        {divider: true},
-        {title: i18n.t('ui.app.about'), icon: 'info', store_var_name: 'showAboutDialog'},
-        {title: i18n.t('ui.app.data_credits'), icon: 'copyright', store_var_name: 'showDataCreditsDialog'},
-        {title: i18n.t('ui.app.privacy'), icon: 'lock', store_var_name: 'showPrivacyDialog'}
-      ]),
       guiComponent: 'GuiLoader',
       startTimeIsSet: false
     }
@@ -178,6 +166,21 @@ export default {
     }
   },
   computed: {
+    menuItems: function () {
+      return [
+        {header: i18n.t('ui.app.ephemeris')},
+        {title: i18n.t('ui.app.planets_tonight'), icon: 'panorama_fish_eye', store_var_name: 'showPlanetsVisibilityDialog'},
+        {divider: true},
+        {header: i18n.t('ui.app.settings')},
+        {title: i18n.t('ui.app.view_settings'), icon: 'settings', store_var_name: 'showViewSettingsDialog'},
+        {title: i18n.t('ui.app.lang_settings'), icon: 'translate', store_var_name: 'showLangSettingsDialog'}
+      ].concat(this.getPluginsMenuItems()).concat([
+        {divider: true},
+        {title: i18n.t('ui.app.about'), icon: 'info', store_var_name: 'showAboutDialog'},
+        {title: i18n.t('ui.app.data_credits'), icon: 'copyright', store_var_name: 'showDataCreditsDialog'},
+        {title: i18n.t('ui.app.privacy'), icon: 'lock', store_var_name: 'showPrivacyDialog'}
+      ])
+    },
     nav: {
       get: function () {
         return this.$store.state.showNavigationDrawer

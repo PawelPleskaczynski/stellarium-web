@@ -12,6 +12,7 @@ import StelWebEngine from '@/assets/js/stellarium-web-engine.js'
 import NoctuaSkyClient from '@/assets/noctuasky-client'
 import Moment from 'moment'
 import { i18n } from '../plugins/i18n.js'
+import langs from '../plugins/langs.js'
 
 var DDDate = Date
 DDDate.prototype.getJD = function () {
@@ -712,10 +713,7 @@ const swh = {
     }
     if (!title) return Promise.reject(new Error("Can't find wikipedia compatible name"))
 
-    var language = window.navigator.userLanguage || window.navigator.language
-    if (language.includes('-')) language = language.substring(0, language.indexOf('-'))
-    const listLanguages = ['en', 'pl']
-    if (!listLanguages.includes(language)) language = 'en'
+    var language = langs.language()
 
     return fetch('https://' + language + '.wikipedia.org/w/api.php?action=query&redirects&prop=extracts&exintro&exlimit=1&exchars=300&format=json&origin=*&titles=' + title,
       {headers: { 'Content-Type': 'application/json; charset=UTF-8' }})

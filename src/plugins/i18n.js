@@ -1,19 +1,19 @@
 /* =================
  * Translation guide
  * =================
- * 1. Add your desired language (without hyphen) to an array in sw_helpers.js
- *    file (717th line as of 12th of Jan, 2019), selected-object-info.vue
- *    file (90th line) and this file (29th line). The list should then look
- *    like this: `const listLanguages = ['en', 'pl', 'ru']`
+ * 1. Add your desired language (without hyphen) to an array in
+ *    /src/plugins/langs.js. The list should then look like this:
+ *    `const listLanguages = ['en', 'pl', 'ru']`
  *
- * 2. Copy and paste original `en` object in `const messages` object, and
- *    change its name to the language's short name (the same as in 1st point)
+ * 2. Add your language to 'items' array in /src/components/lang-settings-
+ *    dialog.vue
  *
- * 3. Translate key/value pairs in the new object. Don't change key, only change
+ * 3. Let's assume you want to translate from English to Russian, and you have
+ *    done 1st and 2nd step. You need to copy and paste existing 'en'
+ *    object in this file (in const translations) and change its name to 'ru'.
+ *
+ * 4. Translate key/value pairs in the new object. Don't change key, only change
  *    values. If you can't translate something, leave original value.
- *
- * 4. Update lines in 1st point if these were changed (that'll help other
- *    translators)
  *
  * 5. Don't forget to add your name to `doc/cla` directory and create a PR
  *
@@ -23,13 +23,11 @@
 
 import Vue from 'vue'
 import VueI18n from 'vue-i18n'
+import langs from './langs.js'
 
-var language = window.navigator.userLanguage || window.navigator.language
-if (language.includes('-')) language = language.substring(0, language.indexOf('-'))
-const listLanguages = ['en', 'pl']
-if (!listLanguages.includes(language)) language = 'en'
+var language = langs.language()
 
-const messages = {
+const translations = {
   en: {
     planets: {
       sun: 'sun',
@@ -338,10 +336,12 @@ const messages = {
       },
       app: {
         cookies: 'This site uses cookies. By continuing to browse the site you are agreeing to our use of cookies. Check our ',
+        privacy_policy: 'Privacy Policy',
         agree: 'I Agree',
         ephemeris: 'Ephemeris',
         planets_tonight: 'Planets Tonight',
         settings: 'Settings',
+        lang_settings: 'Change language',
         view_settings: 'View Settings',
         about: 'About',
         data_credits: 'Data Credits',
@@ -370,6 +370,10 @@ const messages = {
         error2p2: 'desktop version',
         error2p3: ', or read the project\'s ',
         errpr2p4: 'news'
+      },
+      lang_settings_dialog: {
+        lang_settings: 'Change language',
+        select_lang: 'Select language'
       },
       location_dialog: {
         use_autolocation: 'Use Autolocation'
@@ -773,6 +777,7 @@ const messages = {
         ephemeris: 'Efemerydy',
         planets_tonight: 'Planety dzisiejszej nocy',
         settings: 'Ustawienia',
+        lang_settings: 'Zmień język/Change language',
         view_settings: 'Ustawienia wyświetlania',
         about: 'O programie',
         data_credits: 'Dane',
@@ -801,6 +806,10 @@ const messages = {
         error2p2: 'wersję na pulpit',
         error2p3: ', lub przeczytać ',
         errpr2p4: 'wiadomości o projekcie'
+      },
+      lang_settings_dialog: {
+        lang_settings: 'Change language/Zmień język',
+        select_lang: 'Select language'
       },
       location_dialog: {
         use_autolocation: 'Korzystaj z automatycznej lokalizacji'
@@ -893,9 +902,12 @@ const messages = {
   }
 }
 
+export default translations
+
 Vue.use(VueI18n)
 export const i18n = new VueI18n({
   locale: language,
   fallbackLocale: 'en',
-  messages
+  messages: translations,
+  silentTranslationWarn: false
 })

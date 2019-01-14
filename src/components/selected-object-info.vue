@@ -84,11 +84,9 @@
 import Moment from 'moment'
 import swh from '@/assets/sw_helpers.js'
 import { i18n } from '../plugins/i18n.js'
+import langs from '../plugins/langs.js'
 
-var language = window.navigator.userLanguage || window.navigator.language
-if (language.includes('-')) language = language.substring(0, language.indexOf('-'))
-const listLanguages = ['en', 'pl']
-if (!listLanguages.includes(language)) language = 'en'
+var language = langs.language()
 
 export default {
   data: function () {
