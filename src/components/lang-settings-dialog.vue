@@ -48,7 +48,6 @@ export default {
   },
   methods: {
     changeLang (a) {
-      console.log(a.short_name)
       Vue.config.lang = a.short_name
       this.$i18n.locale = Vue.config.lang
       langs.updateLanguage(a.short_name)

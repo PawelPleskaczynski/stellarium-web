@@ -656,7 +656,6 @@ const swh = {
   // Get data for a SkySource from wikipedia
   getSkySourceSummaryFromWikipedia: function (ss) {
     let title
-    console.log(ss.short_name)
     if (ss.model === 'jpl_sso') {
       title = ss.short_name.toLowerCase()
       if (title === 'sun' || title === 'moon') {
